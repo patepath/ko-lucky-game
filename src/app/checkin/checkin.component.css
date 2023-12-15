@@ -17,9 +17,13 @@
     margin-bottom: 1em;
 }
 
+.container .qrcode {
+    font-size: 2ptl;
+}
+
 .container .text {
     width: 60vw;
-    font-size: 30pt;
+    font-size: 20pt;
     border-radius: 20px;
     padding: 0.5em;
     text-align: center;
