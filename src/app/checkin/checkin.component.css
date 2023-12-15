@@ -1,0 +1,26 @@
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 75vw;
+    border: solid thin gray;
+    padding: 1em;
+    text-align: center;
+}
+
+.container button {
+    font-size: 24pt;
+    border-radius: 20px;
+    padding: 0.5em;
+}
+
+.container .mb-1 {
+    margin-bottom: 1em;
+}
+
+.container .text {
+    width: 60vw;
+    font-size: 30pt;
+    border-radius: 20px;
+    padding: 0.5em;
+    text-align: center;
+}
