@@ -4,11 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CheckinComponent } from './checkin/checkin.component';
+import { LuckydrawComponent } from './luckydraw/luckydraw.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CheckinComponent
+    CheckinComponent,
+    LuckydrawComponent
   ],
   imports: [
     BrowserModule,

@@ -28,3 +28,8 @@
     padding: 0.5em;
     text-align: center;
 }
+
+.container table, th, td {
+    border: solid thin gray;
+    border-collapse: collapse;
+}
