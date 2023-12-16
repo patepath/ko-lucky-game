@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { Subject, debounceTime } from 'rxjs';
+import { Subject, count, debounceTime, filter } from 'rxjs';
 
 @Component({
   selector: 'app-checkin',
@@ -20,19 +20,20 @@ export class CheckinComponent implements OnInit, AfterViewInit {
   constructor() { }
   
   ngOnInit(): void {
-
     this.qrcode$
       .pipe(
-        debounceTime(500)
+        debounceTime(100),
+        filter(s => s.length == 4)
       )
       .subscribe(s => {
-        console.log(s);
+        this.status = 3;
       }
     );
 
     this.code$
       .pipe(
-        debounceTime(600)
+        debounceTime(600),
+        filter(s => s.length == 4)
       )
       .subscribe(s => {
         console.log(s);
@@ -52,19 +53,25 @@ export class CheckinComponent implements OnInit, AfterViewInit {
     this.code$.next(code);
   }
 
+  resetQRCode() {
+    this.txtqrcode.nativeElement.value = '';
+    this.txtqrcode.nativeElement.focus();
+  }
+
   doSearch() {
     this.status = 2;
-    this.txtqrcode.nativeElement.value = '';
 
     setTimeout(() => {
+      this.txtcode.nativeElement.value = '';
       this.txtcode.nativeElement.focus();
-    }, 500);
+    }, 100);
   }
 
   doCancel() {
     this.status = 1;
 
     setTimeout(() => {
+      this.txtqrcode.nativeElement.value = '';
       this.txtqrcode.nativeElement.focus();
     }, 100);
   }
