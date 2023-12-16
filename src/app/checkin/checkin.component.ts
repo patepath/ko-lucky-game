@@ -20,6 +20,7 @@ export class CheckinComponent implements OnInit, AfterViewInit {
   constructor() { }
   
   ngOnInit(): void {
+
     this.qrcode$
       .pipe(
         debounceTime(500)
@@ -40,6 +41,7 @@ export class CheckinComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.txtqrcode.nativeElement.focus();
   }
 
   doQRCode(qrcode: string) {
@@ -52,5 +54,19 @@ export class CheckinComponent implements OnInit, AfterViewInit {
 
   doSearch() {
     this.status = 2;
+    this.txtqrcode.nativeElement.value = '';
+
+    setTimeout(() => {
+      this.txtcode.nativeElement.focus();
+    }, 500);
+  }
+
+  doCancel() {
+    this.status = 1;
+
+    setTimeout(() => {
+      this.txtqrcode.nativeElement.focus();
+    }, 100);
   }
 }
+

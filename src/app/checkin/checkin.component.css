@@ -17,8 +17,11 @@
     margin-bottom: 1em;
 }
 
-.container .qrcode {
-    font-size: 2ptl;
+.container .qrcode:focus {
+    border: none;
+    outline: none;
+    font-size: none;
+    color: white;
 }
 
 .container .text {
