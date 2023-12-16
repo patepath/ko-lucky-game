@@ -13,10 +13,6 @@
     padding: 0.5em;
 }
 
-.container .mb-1 {
-    margin-bottom: 1em;
-}
-
 .container .qrcode, .qrcode:focus {
     border: none;
     outline: none;
@@ -25,7 +21,7 @@
 }
 
 .container .text {
-    width: 60vw;
+    width: 10em;
     font-size: 20pt;
     border-radius: 20px;
     padding: 0.5em;
