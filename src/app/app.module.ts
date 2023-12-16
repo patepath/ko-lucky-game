@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { CheckinComponent } from './checkin/checkin.component';
 import { LuckydrawComponent } from './luckydraw/luckydraw.component';
 
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './services/in-memory-data.service'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -14,7 +17,10 @@ import { LuckydrawComponent } from './luckydraw/luckydraw.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false}
+    ),
   ],
   providers: [],
   bootstrap: [AppComponent]
