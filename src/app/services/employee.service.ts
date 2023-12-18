@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, doc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, doc, updateDoc, } from '@angular/fire/firestore';
 import { Employee } from '../models/employee';
 import { Observable } from 'rxjs';
 
@@ -11,11 +11,21 @@ export class EmployeeService {
   constructor(private _fs: Firestore) { }
 
   add(emply: Employee) {
-    emply.id = parseInt(doc(collection(this._fs, 'id')).id);
+    //emply.id = doc(collection(this._fs, 'id')).id;
     return addDoc(collection(this._fs, 'Employees'), emply);
   }
 
-  getAll(): Observable<Employee[]> {
+  edit(emply: Employee) {
+    let emplyIns = doc(this._fs, 'Employees', emply.id);
+    let updateData = {
+      code: emply.code,
+      fullName: emply.fullName,
+    }
+
+    return updateDoc(emplyIns, updateData);
+  }
+
+  findAll(): Observable<Employee[]> {
     let ref = collection(this._fs, 'Employees');
     return collectionData(ref, { idField: 'id'}) as Observable<Employee[]>;
   }
