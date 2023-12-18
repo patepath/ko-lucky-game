@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, doc, updateDoc, } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, doc, orderBy, query, updateDoc, } from '@angular/fire/firestore';
 import { Employee } from '../models/employee';
 import { Observable } from 'rxjs';
 
@@ -26,7 +26,7 @@ export class EmployeeService {
   }
 
   findAll(): Observable<Employee[]> {
-    let ref = collection(this._fs, 'Employees');
+    let ref = query(collection(this._fs, 'Employees'), orderBy('code'));
     return collectionData(ref, { idField: 'id'}) as Observable<Employee[]>;
   }
 }

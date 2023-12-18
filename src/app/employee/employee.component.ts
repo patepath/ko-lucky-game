@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../models/employee';
-import { ConnectableObservable } from 'rxjs';
 import { orderBy } from '@angular/fire/firestore';
 
 declare var $:any;
@@ -10,6 +9,7 @@ declare interface DataTable {
     footerRow: string[];
     dataRows: string[][];
 }
+
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
@@ -42,12 +42,12 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
 			dom: 'frtip',
 			responsive: true,
 			columnDefs: [ { targets: [0], width: '5em', className: 'text-center' } ],
-			ordering: true,
-			order: [[0, 'asc']],
 			language: {
 				search: "_INPUT_",
 				searchPlaceholder: "Search records",
 			},
+      paging: true,
+      pageLenght: 10,
 			pagingType: "full_numbers",
 		});
 
@@ -73,20 +73,20 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
 
   refresh() {
 		let table = $('#employee-table').DataTable();
-
 		table.clear();
-		table.draw();
-
     this.data = [];
   
-    this.emplies.forEach(s => {
-      this.data.push([
-        s.code, 
-        s.fullName,
-      ]);
-    });
+    if(this.emplies.length > 0) {
+      this.emplies.forEach(s => {
+        this.data.push([
+          s.code, 
+          s.fullName,
+        ]);
+      });
 
-    table.rows.add(this.data)
+      table.rows.add(this.data)
+    }
+
     table.draw();
   }
 
@@ -103,18 +103,19 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
   }
 
   saveEmployee() {
-    console.log(this.emply);
-
     if(this.emply.id === '') {
       this.emplyServ.add(this.emply).then(rs => {});
 
     } else {
       this.emplyServ.edit(this.emply).then(rs => { console.log(rs)});
     }
+
+    this.newEmply();
   }
 
-
   removeEmployee() {
+    if(confirm("ต้องการที่จะลบข้อมูลพนักงานหรือไม่?")) {
 
+    }
   }
 }
