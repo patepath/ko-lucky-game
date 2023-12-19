@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, doc, orderBy, query, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, orderBy, query, updateDoc } from '@angular/fire/firestore';
 import { Present } from '../models/present';
 import { Observable } from 'rxjs';
 
@@ -19,9 +19,15 @@ export class PresentService {
     let presentIns = doc(this._fs, 'Presents', present.id);
     let updateData = {
       name: present.name,
+      qty: present.qty,
     }
 
     return updateDoc(presentIns, updateData);
+  }
+
+  remove(present: Present) {
+    let presentIns = doc(this._fs, 'Presents', present.id);
+    return deleteDoc(presentIns)
   }
 
   findAll(): Observable<Present[]> {

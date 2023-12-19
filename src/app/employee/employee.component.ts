@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../models/employee';
-import { orderBy } from '@angular/fire/firestore';
 
 declare var $:any;
 declare interface DataTable {
@@ -26,10 +25,13 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
 
   constructor(private emplyServ: EmployeeService) {
     this.dataTable = {
-      headerRow: ['รหัส', 'ชื่อ-นามสกุล' ],
-      footerRow: ['รหัส', 'ชื่อ-นามสกุล' ],
+      headerRow: ['รหัส', 'ชื่อ-นามสกุล', 'ลงทะเบียน', 'ของขวัญที่ได้' ],
+      footerRow: ['รหัส', 'ชื่อ-นามสกุล', 'ลงทะเบียน', 'ของขวัญที่ได้' ],
       dataRows: [],
     };
+
+    this.emply.isCheck = false;
+    this.emply.present = '';
   }
 
   ngOnInit(): void {
@@ -41,7 +43,7 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
 		let table = $('#employee-table').DataTable({
 			dom: 'frtip',
 			responsive: true,
-			columnDefs: [ { targets: [0], width: '5em', className: 'text-center' } ],
+			columnDefs: [ { targets: [0, 2], width: '5em', className: 'text-center' } ],
 			language: {
 				search: "_INPUT_",
 				searchPlaceholder: "Search records",
@@ -81,6 +83,8 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
         this.data.push([
           s.code, 
           s.fullName,
+          s.isCheck ? '/' : '',
+          s.present
         ]);
       });
 
@@ -100,6 +104,8 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
   newEmply() {
     this.emply = <Employee>{};
     this.emply.id = '';
+    this.emply.isCheck = false;
+    this.emply.present = '';
   }
 
   saveEmployee() {

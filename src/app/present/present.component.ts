@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Present } from '../models/present';
 import { PresentService } from '../services/present.service';
+import { ThisReceiver } from '@angular/compiler';
 
 declare var $:any;
 declare interface DataTable {
@@ -25,8 +26,8 @@ export class PresentComponent implements OnInit, AfterViewInit {
 
   constructor(private _presentSrv: PresentService) { 
     this.dataTable = {
-      headerRow: ['ชื่อของขวัญ' ],
-      footerRow: ['ชื่อของขวัญ' ],
+      headerRow: ['ชื่อของขวัญ', 'จำนวน' ],
+      footerRow: ['ชื่อของขวัญ', 'จำนวน' ],
       dataRows: [],
     };
     
@@ -46,6 +47,9 @@ export class PresentComponent implements OnInit, AfterViewInit {
 				search: "_INPUT_",
 				searchPlaceholder: "Search records",
 			},
+			columnDefs: [ { 
+        targets: [1], width: '5em', className: 'text-center' } 
+      ],
       paging: true,
       pageLenght: 10,
 			pagingType: "full_numbers",
@@ -80,6 +84,7 @@ export class PresentComponent implements OnInit, AfterViewInit {
       this.presents.forEach(s => {
         this.data.push([
           s.name,
+          String(s.qty),
         ]);
       });
 
@@ -102,21 +107,27 @@ export class PresentComponent implements OnInit, AfterViewInit {
   }
 
   savePresent() {
-    console.log(this.present);
-
     if(this.present.id == '') {
-      this._presentSrv.add(this.present).then(rs => {});
+      this._presentSrv.add(this.present).then(rs => {
+        this.newPresent();
+      });
 
     } else {
-      this._presentSrv.edit(this.present).then(rs => { console.log(rs)});
+      this._presentSrv.edit(this.present).then(rs => { 
+        this.newPresent();
+      });
     }
 
-    this.newPresent();
   }
  
   removePresent() {
-    if(confirm("ต้องการที่จะลบข้อมูลของขวัญหรือไม่?")) {
 
+    if(this.present.id != '') {
+      if(confirm("ต้องการที่จะลบข้อมูลของขวัญหรือไม่?")) {
+        this._presentSrv.remove(this.present).then(rs => {
+          this.newPresent();
+        }) 
+      }
     }
   }
 }

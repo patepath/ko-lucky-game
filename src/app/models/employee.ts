@@ -3,5 +3,5 @@ export interface Employee {
     code: string;
     fullName: string;
     isCheck: boolean;
-    hasPresent: boolean;
+    present: string;
 }

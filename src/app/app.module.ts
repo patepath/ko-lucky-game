@@ -12,6 +12,7 @@ import { PresentComponent } from './present/present.component';
 
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     CheckinComponent,
     LuckydrawComponent,
     EmployeeComponent,
-    PresentComponent
+    PresentComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

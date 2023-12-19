@@ -1,9 +1,6 @@
 .container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 75vw;
-    border: solid thin gray;
-    padding: 1em;
+    width: 100vw;
+    height: 100vh;
     text-align: center;
 }
 
@@ -16,13 +13,15 @@
 .container .qrcode, .qrcode:focus {
     border: none;
     outline: none;
-    font-size: none;
-    color: white;
+    font-size: 18;
+    background: none;
+    color: black;
+    mix-blend-mode: screen;
 }
 
-.container .text {
-    width: 10em;
-    font-size: 20pt;
+#checkin-search  .large-text {
+    width: 20em;
+    font-size: 40pt;
     border-radius: 20px;
     padding: 0.5em;
     text-align: center;
@@ -39,4 +38,31 @@
     border: solid thin gray;
     border-radius: 10px;
     text-align: center;
+}
+
+#checkin-qrcode {
+    background-image: url('../../assets/imgs/checkin-qrcode.jpg'); 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%; 
+    height: 100%;
+}
+
+#checkin-search {
+    background-image: url('../../assets/imgs/checkin-search.jpg'); 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%; 
+    height: 100%;
+}
+
+#checkin-welcome {
+    background-image: url('../../assets/imgs/checkin-welcome.jpg'); 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%; 
+    height: 100%;
 }

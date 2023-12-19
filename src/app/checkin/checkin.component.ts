@@ -1,5 +1,8 @@
 import { Component, ElementRef, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { Subject, count, debounceTime, filter } from 'rxjs';
+import { Subject, count, debounceTime, filter, switchMap } from 'rxjs';
+import { Employee } from '../models/employee';
+import { EmployeeService } from '../services/employee.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,28 +22,37 @@ export class CheckinComponent implements OnInit, AfterViewInit {
 
   public qrcode$ = new Subject<string>;
   public code$ = new Subject<string>;
+  public employees: Employee[] = [];
+  public employee: Employee = <Employee>{};
 
-  constructor() {
-   }
+  constructor(
+    private _emplySrv: EmployeeService,
+    private _router: Router
+  ) {
+  }
   
   ngOnInit(): void {
-    this.qrcode$
-      .pipe(
-        debounceTime(100),
-        filter(s => s.length == 4)
-      )
-      .subscribe(s => {
-        this.status = 3;
-      }
-    );
+//    this.qrcode$
+//      .pipe(
+//        debounceTime(100),
+//        filter(s => s.length == 4),
+//        switchMap(s => this._emplySrv.findByCode(s))
+//      )
+//      .subscribe(s => {
+//        console.log(s);
+//        console.log(this.status);
+//        this.status = 3;
+//        this.employee = s[0];
+//      }
+//    );
 
     this.code$
       .pipe(
-        debounceTime(600),
-        filter(s => s.length == 4)
+        debounceTime(500),
+        switchMap(s => this._emplySrv.findByName(s))
       )
-      .subscribe(s => {
-        console.log(s);
+      .subscribe(val => {
+        this.employees = val;
       }
     );
   }
@@ -51,11 +63,25 @@ export class CheckinComponent implements OnInit, AfterViewInit {
   }
 
   doQRCode(qrcode: string) {
-    this.qrcode$.next(qrcode);
+    if(qrcode.length == 4) {
+      this._emplySrv.findByCode(qrcode).subscribe(s => {
+        if(s.length>0) {
+          
+          //this.status = 3;
+          this.employee = s[0];
+          this._router.navigate(['/register'], { queryParams: { id: this.employee.id }});
+          this.txtqrcode.nativeElement.value = '';
+        }
+      });
+    }
   }
 
   doCodeChange(code: string) {
     this.code$.next(code);
+  }
+
+  selectEmply(id: string) {
+    this._router.navigate(['/register'], { queryParams: { id: id }});
   }
 
   resetQRCode() {
@@ -65,6 +91,8 @@ export class CheckinComponent implements OnInit, AfterViewInit {
 
   doSearch() {
     this.status = 2;
+    
+    this._emplySrv.findAll().subscribe(s => this.employees=s);
 
     setTimeout(() => {
       this.txtcode.nativeElement.value = '';
@@ -72,13 +100,17 @@ export class CheckinComponent implements OnInit, AfterViewInit {
     }, 100);
   }
 
+  async doCheckin() {
+    await this._emplySrv.checkin(this.employee).then(s => { });
+    this.doCancel();
+  }
+
   doCancel() {
     this.status = 1;
 
     setTimeout(() => {
-      this.txtqrcode.nativeElement.value = '';
-      this.txtqrcode.nativeElement.focus();
-    }, 100);
+      this.resetQRCode();
+    }, 200);
   }
 }
 
